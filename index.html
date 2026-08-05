@@ -64,37 +64,6 @@
   .navdots a.active{ background:var(--text); transform:scale(1.3); }
   @media (max-width:720px){ .navdots{ display:none; } }
 
-  /* ============ SECTION 0 : INTRO / LANDING ============ */
-  .intro{
-    min-height:100vh;
-    display:grid;
-    grid-template-columns:1fr minmax(320px, 42%);
-  }
-  .intro-photo{
-    position:relative;
-    overflow:hidden;
-  }
-  .intro-photo img{
-    position:absolute; inset:0;
-    width:100%; height:100%;
-    object-fit:cover;
-  }
-  .intro-text{
-    background:var(--panel);
-    padding:80px 64px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-  }
-  @media (max-width:860px){
-    .intro{ grid-template-columns:1fr; }
-    .intro-photo{ min-height:46vh; order:-1; }
-    .intro-text{ padding:56px 28px; }
-  }
-  @media (max-width:420px){
-    .intro-text{ padding:44px 22px; }
-  }
-
   /* ============ SECTION 1 : HERO ============ */
   .hero{
     min-height:100vh;
@@ -346,25 +315,15 @@
 <body>
 
 <nav class="navdots" aria-label="Section navigation">
-  <a href="#intro" class="active" aria-label="Intro section"></a>
-  <a href="#hero" aria-label="About section"></a>
+  <a href="#hero" class="active" aria-label="About section"></a>
   <a href="#pubs" aria-label="Publications section"></a>
   <a href="#links" aria-label="Other links section"></a>
 </nav>
 
-<!-- SECTION 0: INTRO / LANDING -->
-<section class="intro" id="intro">
-  <div class="intro-photo reveal from-left">
-    <img src="images/intro-photo.jpeg" alt="Colored-pencil illustration of Collin Smith at a desk browsing music websites, a potted plant beside him">
-  </div>
-  <div class="intro-text reveal from-right">
-    <div class="name">Hi, I'm Collin Smith</div>
-  </div>
-</section>
-
 <!-- SECTION 1: ABOUT -->
 <section class="hero" id="hero">
   <div class="hero-text reveal from-left">
+    <div class="name">Hi, I'm Collin Smith</div>
     <div class="bio">
       <p>I'm a music fan and writer based in San Francisco. Past work of mine has appeared in places like The Guardian, The Wire, and Bandcamp Daily, where I've covered everything from <a href="https://daily.bandcamp.com/lists/albert-kuvezin-yat-kha-album-list" target="_blank" rel="noopener">Tuvan rock pioneers</a> to <a href="https://daily.bandcamp.com/lists/korean-folk-fusion-album-guide" target="_blank" rel="noopener">Korean folk-fusion artists</a> to post-punk bands in <a href="https://daily.bandcamp.com/scene-report/chinese-post-punk-list" target="_blank" rel="noopener">China</a> and <a href="https://daily.bandcamp.com/scene-report/oakland-post-punk-scene-report" target="_blank" rel="noopener">Oakland</a>. I also publish a newsletter called <a href="https://www.nochambers.com/" target="_blank" rel="noopener"><strong>No Chambers</strong></a> on global music scenes and other musings on media and culture.</p>
     </div>
@@ -434,8 +393,8 @@
 <!-- SECTION 3: OTHER LINKS -->
 <section class="links" id="links">
   <div class="links-photo reveal from-left">
-    <img src="images/third-photo.jpg" alt="A sculpted metal doorway framing a view of Los Angeles City Hall">
-    <span class="photo-credit">Image Attribution: &ldquo;opening doors&rdquo; by Jeff, licensed under CC BY-ND 2.0 DEED</span>
+    <img src="images/intro-photo.jpeg" alt="Colored-pencil illustration of Collin Smith at a desk browsing music websites, a potted plant beside him">
+    <span class="photo-credit">Illustration by Amy Moss for Bandcamp</span>
   </div>
   <div class="links-text reveal from-right">
     <div>
@@ -464,9 +423,9 @@
   document.getElementById('year').textContent = new Date().getFullYear();
 
   // active-dot tracking
-  const sections = document.querySelectorAll('.intro, .hero, .pubs, .links');
+  const sections = document.querySelectorAll('.hero, .pubs, .links');
   const dots = document.querySelectorAll('.navdots a');
-  const map = { intro: 0, hero: 1, pubs: 2, links: 3 };
+  const map = { hero: 0, pubs: 1, links: 2 };
 
   const observer = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
@@ -483,9 +442,9 @@
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if(!prefersReducedMotion){
-    // intro: animate in shortly after page load, photo first then text
+    // hero: animate in shortly after page load, text first then photo
     window.addEventListener('load', ()=>{
-      document.querySelectorAll('#intro .reveal').forEach((el, i)=>{
+      document.querySelectorAll('#hero .reveal').forEach((el, i)=>{
         setTimeout(()=> el.classList.add('in-view'), 120 + i * 160);
       });
     });
@@ -500,7 +459,7 @@
       });
     }, { threshold:0.2, rootMargin:'0px 0px -60px 0px' });
 
-    document.querySelectorAll('#hero .reveal, #pubs .reveal, #links .reveal').forEach(el=>revealObserver.observe(el));
+    document.querySelectorAll('#pubs .reveal, #links .reveal').forEach(el=>revealObserver.observe(el));
   } else {
     document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in-view'));
   }
